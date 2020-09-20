@@ -53,11 +53,11 @@
     h2 = getVal('h2');
     unit = UNITS[unitId];
     h1_km = h1 * unit.minor.factor * 0.001;
-    h2_km = h2 * unit.major.factor;
-    d1_km = getHorizonDistance_km(h0_km);
-    d2_km = getHorizonDistance_km(h1_km);
+    h2_km = h2 * unit.major.factor * 0.001;
+    d1_km = getHorizonDistance_km(h1_km);
+    d2_km = getHorizonDistance_km(h2_km);
     d1 = d1_km / unit.major.factor;
-    d = d1_km + d2_km;
+    d = (d1_km + d2_km) / unit.major.factor;
     $('#d1').text(d1.toFixed(6));
     $('#d').text(d.toFixed(6));
     qs = queryString.stringify({
