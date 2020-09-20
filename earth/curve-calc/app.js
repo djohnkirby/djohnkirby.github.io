@@ -48,21 +48,21 @@
     return it.preventDefault();
   });
   function calculate(){
-    var h0, d0, unit, h0_km, d0_km, d1_km, h1_m, d1, h1, qs;
-    h0 = getVal('h0');
-    d0 = getVal('d0');
+    var h1, h2, unit, h1_km, h2_km, d1_km, d2_km, d1, d, qs;
+    h1 = getVal('h1');
+    h2 = getVal('h2');
     unit = UNITS[unitId];
-    h0_km = h0 * unit.minor.factor * 0.001;
-    d0_km = d0 * unit.major.factor;
+    h1_km = h1 * unit.minor.factor * 0.001;
+    h2_km = h2 * unit.major.factor;
     d1_km = getHorizonDistance_km(h0_km);
-    h1_m = getTargetHiddenHeight_km(d0_km - d1_km) * 1000;
+    d2_km = getHorizonDistance_km(h1_km);
     d1 = d1_km / unit.major.factor;
-    h1 = h1_m / unit.minor.factor;
+    d = d1_km + d2_km;
     $('#d1').text(d1.toFixed(6));
-    $('#h1').text(h1.toFixed(4));
+    $('#d').text(d.toFixed(6));
     qs = queryString.stringify({
-      d0: d0,
-      h0: h0,
+      h1: h1,
+      h2: h2,
       unit: unitId
     });
     return history.replaceState(void 8, "", "?" + qs);
@@ -80,10 +80,10 @@
     return parseFloat($("#" + it).val());
   }
   function initialise(){
-    var qs, d0, h0, u;
+    var qs, h1, h2, u;
     qs = queryString.parse(location.search);
-    $('#d0').val(parseFloat(d0 = qs.d0) ? d0 : '30');
-    $('#h0').val(parseFloat(h0 = qs.h0) ? h0 : '10');
+    $('#h1').val(parseFloat(h1 = qs.h1) ? h1 : '1.75');
+    $('#h2').val(parseFloat(h2 = qs.h2) ? h2 : '10');
     return initialiseUnit(UNITS[u = qs.unit] ? u : 'imperial');
   }
   function initialiseUnit(it){
@@ -98,8 +98,8 @@
     var unit;
     showUnit(unitId = it);
     unit = UNITS[unitId];
-    $('#h0').val(unit.minor['switch'] * getVal('h0'));
-    $('#d0').val(unit.major['switch'] * getVal('d0'));
+    $('#h1').val(unit.minor['switch'] * getVal('h1'));
+    $('#h2').val(unit.major['switch'] * getVal('h2'));
     return calculate();
   }
 }).call(this);
