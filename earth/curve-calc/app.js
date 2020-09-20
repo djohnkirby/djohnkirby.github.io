@@ -53,13 +53,13 @@
     h2 = getVal('h2');
     unit = UNITS[unitId];
     h1_km = h1 * unit.minor.factor * 0.001;
-    h2_km = h2 * unit.major.factor * 0.001;
+    h2_km = h2 * unit.minor.factor * 0.001;
     d1_km = getHorizonDistance_km(h1_km);
     d2_km = getHorizonDistance_km(h2_km);
     d1 = d1_km / unit.major.factor;
     d = (d1_km + d2_km) / unit.major.factor;
-    $('#d1').text(d1.toFixed(6));
-    $('#d').text(d.toFixed(6));
+    $('#d1').text(d1.toFixed(2));
+    $('#d').text(d.toFixed(2));
     qs = queryString.stringify({
       h1: h1,
       h2: h2,
@@ -84,7 +84,7 @@
     qs = queryString.parse(location.search);
     $('#h1').val(parseFloat(h1 = qs.h1) ? h1 : '1.75');
     $('#h2').val(parseFloat(h2 = qs.h2) ? h2 : '10');
-    return initialiseUnit(UNITS[u = qs.unit] ? u : 'imperial');
+    return initialiseUnit(UNITS[u = qs.unit] ? u : 'metric');
   }
   function initialiseUnit(it){
     $("input#" + it).prop('checked', true);
@@ -99,7 +99,7 @@
     showUnit(unitId = it);
     unit = UNITS[unitId];
     $('#h1').val(unit.minor['switch'] * getVal('h1'));
-    $('#h2').val(unit.major['switch'] * getVal('h2'));
+    $('#h2').val(unit.minor['switch'] * getVal('h2'));
     return calculate();
   }
 }).call(this);
